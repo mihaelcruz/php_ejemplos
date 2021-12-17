@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>PALADART</title>
-  </head>
-  <body>
-    <h1>BACKEND</h1>
+<?php
+  session_start();
+  $usuario=$_SESSION["nombres"].' '.$_SESSION["apellidos"];
+  $rol=$_SESSION["rol"];
+  if (isset($usuario)&&$rol=='admin') {
+    include 'includes/header.php';
+    echo "Bienvenid@ ".$usuario.'<br> Usted inicio la sesion con rol: '.$rol;
+    include 'includes/footer.php';
+  }
+  else{
+    header("location: login.php");
+  }
 
-  </body>
-</html>
+ ?>

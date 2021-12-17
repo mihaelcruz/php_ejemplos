@@ -21,22 +21,37 @@
         if ($consulta_pass) {
           while ($row=mysqli_fetch_array($consulta_pass)) {
             $hash=$row['password'];
+            /*$_SESSION["id"] =$row['id'];
+            $_SESSION["nombres"] =$row['nombres'];
+            $_SESSION["apellidos"] =$row['apellidos'];
+            $_SESSION["rol"] =$row['rol'];*/
+          }
+          if (password_verify($salto.$password,$hash)) {
+            $sql_pass2="SELECT * from usuarios WHERE nick='admin'";
+            $consulta_pass2=mysqli_query($conexion,$sql_pass);
+            while ($row2=mysqli_fetch_array($consulta_pass2)) {
+              $_SESSION["id"] =$row2['id'];
+              $_SESSION["nombres"] =$row2['nombres'];
+              $_SESSION["apellidos"] =$row2['apellidos'];
+              $_SESSION["rol"] =$row2['rol'];
+            }
+            if ($_SESSION['rol']=='admin') {
+              header("location: ../index.php");
+            }else {
+              header("location: ../noadmin.php");
+            }
+          }else {
+          echo "<div class='alert alert-danger'>";
+          echo "<br>Datos erroneos<br>";
+          echo "</div>";
+          echo "<a class='btn btn-info' href='../login.php'> Volver al login</a>";
           }
         }
-        if (password_verify($salto.$password,$hash)) {
-          while ($row=mysqli_fetch_array($consulta_pass)) {
-            $_SESSION["id"] =$row['id'];
-            $_SESSION["rol"] =$row['rol'];
+        else {
+          echo "<br/>Datos erroneos<br/>";
+          echo "<a href='../login.php'> Volver al login</a>";
           }
-
-        }
-        if ($_SESSION['rol']=='admin') {
-          header("location: ../index.php");
-        }
-        else{
-          echo "no es usuario con rol admin";
-        }
-       ?>
+   ?>
     </div>
   </section>
 
